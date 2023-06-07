@@ -3,10 +3,15 @@ package com.example.nearbyplaces
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -54,6 +59,34 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClie
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+    }
+
+    fun onClick(view: View){
+        when(view.id){
+            R.id.ic_magnify -> {
+                val addressField: EditText = findViewById(R.id.location_search)
+                val address: String  = addressField.text.toString()
+                var addressList: List<Address>
+                if(!TextUtils.isEmpty(address)){
+                    val geoCoder = Geocoder(this)
+                    addressList = geoCoder.getFromLocationName(address, 6) as List<Address>
+                    if(addressList != null) {
+                        for (i in addressList) {
+                            var userAddress = i
+                            val latLng = LatLng(userAddress.latitude, userAddress.longitude)
+                            mMap.addMarker(MarkerOptions().position(latLng).title(address))
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10F))
+                        }
+                    } else{
+                        Toast.makeText(this, "Location Not Found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else -> {
+                Toast.makeText(this, "Please Writeany Location Name", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -68,7 +101,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClie
         ){
             buildingGoogleApiCLient()
             mMap.isMyLocationEnabled
-
+            mMap.uiSettings.isMyLocationButtonEnabled
         }
     }
 
@@ -153,13 +186,6 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClie
         mMap.addMarker(MarkerOptions().position(latLng).title("user Current Location"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15F))
-//        val markerOption: MarkerOptions = MarkerOptions().position(latLng)
-//        markerOption.title("user Current Location")
-//        markerOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-//        currentUserLocationMarker = mMap.addMarker(markerOption)!!
-//
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-//        mMap.animateCamera(CameraUpdateFactory.zoomBy(10F))
         if(googleApiClient != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this)
         }

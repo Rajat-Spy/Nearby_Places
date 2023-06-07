@@ -1,9 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+    android:layout_height="match_parent">
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" />
+    <RelativeLayout
+        android:id="@+id/rellayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="10dp"
+        android:background="@drawable/whire_border">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ic_magnify"
+            android:textSize="15sp"
+            android:textColorHint="@android:color/darker_gray"
+            android:id="@+id/location_search"
+            android:hint="Enter Address, City, Zip Code"
+            android:imeOptions="actionSearch"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height= "wrap_content"
+            android:id="@+id/ic_magnify"
+            android:layout_centerVertical="true"
+            android:onClick="onClick"
+            android:src="@drawable/ic_magnify"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/secondRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/hospitalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="100dp"
+            android:onClick="onClick"
+            android:src="@mipmap/hospital"
+            />
+        <ImageButton
+            android:id="@+id/restaurantButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/hospitalButton"
+            android:onClick="onClick"
+            android:src="@mipmap/restaurant"
+            />
+        <ImageButton
+            android:id="@+id/museumButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/restaurantButton"
+            android:onClick="onClick"
+            android:src="@mipmap/museum"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
